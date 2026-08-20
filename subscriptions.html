@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Subscribe & Save — Meadowpure Dairy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .sub-hero{background:linear-gradient(135deg,#2C4230 0%,#3D5A3E 100%);color:#fff;padding:6rem 0 4rem;text-align:center}
+    .sub-hero h1{font-size:clamp(2.5rem,5vw,4rem);color:var(--milk);margin-bottom:0.8rem}
+    .sub-hero p{color:rgba(245,237,216,0.8);max-width:520px;margin:0 auto;font-size:1rem;line-height:1.7}
+    .how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem}
+    .how-step{text-align:center;padding:2.5rem 2rem;background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border)}
+    .how-num{font-family:'Fraunces',serif;font-size:3rem;color:var(--gold);opacity:0.4;line-height:1;margin-bottom:1rem}
+    .how-step h3{font-size:1.1rem;margin-bottom:0.7rem}
+    .how-step p{font-size:0.87rem;color:var(--muted);line-height:1.7}
+    .plans-section{background:var(--milk)}
+    .plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .plan-card{background:#fff;border-radius:var(--radius-lg);padding:2rem;border:1.5px solid var(--border);position:relative;transition:var(--trans)}
+    .plan-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .plan-popular{border-color:var(--green)}
+    .plan-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:0.75rem;font-weight:700;padding:0.3rem 1.2rem;border-radius:50px;white-space:nowrap}
+    .plan-icon{font-size:2.5rem;display:block;text-align:center;margin-bottom:0.7rem}
+    .plan-header{text-align:center;margin-bottom:1.5rem}
+    .plan-header h3{font-size:1.4rem;margin-bottom:0.3rem}
+    .plan-sub{font-size:0.82rem;color:var(--muted)}
+    .plan-price{text-align:center;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+    .plan-amount{font-family:'Fraunces',serif;font-size:2.4rem;color:var(--dark)}
+    .plan-period{font-size:0.9rem;color:var(--muted)}
+    .plan-features{list-style:none;margin-bottom:1.8rem}
+    .plan-features li{padding:0.45rem 0;font-size:0.87rem;border-bottom:1px solid rgba(0,0,0,0.04)}
+    .plans-note{text-align:center;margin-top:2rem;font-size:0.82rem;color:var(--muted)}
+    .faq-item{border-bottom:1px solid var(--border)}
+    .faq-q{width:100%;text-align:left;padding:1.2rem 0;font-size:0.95rem;font-weight:600;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--dark);font-family:inherit}
+    .faq-q::after{content:'＋';font-size:1.2rem;color:var(--gold);transition:transform 0.25s;flex-shrink:0}
+    .faq-item.open .faq-q::after{transform:rotate(45deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease}
+    .faq-a p{padding:0 0 1.2rem;font-size:0.88rem;color:var(--muted);line-height:1.75}
+    .cta-strip{background:var(--dark);color:#fff;padding:4rem 0}
+    .cta-strip-inner{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+    .cta-strip h3{font-size:1.6rem;margin-bottom:0.4rem}
+    .cta-strip p{opacity:0.7;font-size:0.9rem}
+    @media(max-width:768px){.how-grid,.plans-grid{grid-template-columns:1fr}.cta-strip-inner{flex-direction:column;text-align:center}}
+  </style>
+</head>
+<body>
+<div class="ann-bar">🚚 Free delivery on orders over $40 · Subscribe &amp; save 15%<button onclick="this.parentElement.style.display='none'">✕</button></div>
+<header class="header" id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#3D5A3E"/><path d="M10 22 Q16 8 22 22" stroke="#F5EDD8" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#C8903A"/></svg><span class="logo-text">Meadow<em>pure</em></span></a>
+    <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="subscriptions.html" class="active">Subscribe</a><a href="about.html">Our Farm</a><a href="blog.html">Journal</a></nav>
+    <div class="header-actions">
+      <a href="account.html" class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <button class="icon-btn" id="cartToggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-badge" id="cartBadge">0</span></button>
+    </div>
+  </div>
+</header>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer-header"><h3>Your Cart <span id="cartItemCount">(0 items)</span></h3><button class="close-cart" id="closeCart">✕</button></div>
+  <div class="cart-items" id="cartItems"><div class="cart-empty"><span>🛒</span><p>Your cart is empty</p></div></div>
+  <div class="cart-footer" id="cartFooter" style="display:none"><div class="cart-subtotal"><span>Subtotal</span><strong id="cartSubtotal">$0.00</strong></div><a href="checkout.html" class="btn-full btn-dark" style="display:block;padding:1rem;text-align:center;border-radius:12px">Checkout</a></div>
+</aside>
+
+<div class="sub-hero">
+  <div class="container">
+    <p class="eyebrow" style="color:rgba(245,237,216,0.7)">Never run out again</p>
+    <h1>Subscribe &amp; Save 15%</h1>
+    <p>Set your schedule, choose your products, and we'll handle the rest. Pause or cancel anytime — no strings attached.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head centered"><p class="eyebrow">Simple as 1-2-3</p><h2>How it works</h2></div>
+    <div class="how-grid">
+      <div class="how-step"><div class="how-num">01</div><h3>Choose your products</h3><p>Pick any items from our full range. Mix and match whole milk, organic, flavoured — whatever your household needs.</p></div>
+      <div class="how-step"><div class="how-num">02</div><h3>Set your frequency</h3><p>Weekly, fortnightly, or monthly — choose what works for you. Adjust anytime from your account dashboard.</p></div>
+      <div class="how-step"><div class="how-num">03</div><h3>Enjoy &amp; save</h3><p>15% off every order, free delivery always, and priority fulfilment. Fresh milk, on your schedule.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section plans-section">
+  <div class="container">
+    <div class="section-head centered"><p class="eyebrow">Subscription Plans</p><h2>Find your perfect plan</h2></div>
+    <div class="plans-grid">
+      <div class="plan-card">
+        <span class="plan-icon">🥛</span>
+        <div class="plan-header"><h3>Essentials</h3><p class="plan-sub">Perfect for individuals or couples</p></div>
+        <div class="plan-price"><span class="plan-amount">$14.99</span><span class="plan-period"> / week</span></div>
+        <ul class="plan-features"><li>✓ 2 × Whole Milk (1L)</li><li>✓ 1 × Low-Fat Milk (1L)</li><li>✓ 15% off all items</li><li>✓ Free delivery</li><li>✓ Pause anytime</li></ul>
+        <button class="btn-outline btn-full" onclick="subscribe('Essentials',14.99)">Subscribe Now</button>
+      </div>
+      <div class="plan-card plan-popular">
+        <div class="plan-badge">Most Popular</div>
+        <span class="plan-icon">🏡</span>
+        <div class="plan-header"><h3>Family</h3><p class="plan-sub">The perfect family weekly box</p></div>
+        <div class="plan-price"><span class="plan-amount">$29.99</span><span class="plan-period"> / week</span></div>
+        <ul class="plan-features"><li>✓ 4 × Whole Milk (1L)</li><li>✓ 2 × Organic 2% (1L)</li><li>✓ 1 × Chocolate Milk (500ml)</li><li>✓ 15% off all items</li><li>✓ Free priority delivery</li><li>✓ Pause or skip anytime</li></ul>
+        <button class="btn-primary btn-full" onclick="subscribe('Family',29.99)">Subscribe Now</button>
+      </div>
+      <div class="plan-card">
+        <span class="plan-icon">✨</span>
+        <div class="plan-header"><h3>Premium</h3><p class="plan-sub">The full Meadowpure experience</p></div>
+        <div class="plan-price"><span class="plan-amount">$49.99</span><span class="plan-period"> / week</span></div>
+        <ul class="plan-features"><li>✓ Everything in Family</li><li>✓ Seasonal limited editions</li><li>✓ Monthly farm gift</li><li>✓ 20% off (extra 5%)</li><li>✓ Dedicated account manager</li></ul>
+        <button class="btn-outline btn-full" onclick="subscribe('Premium',49.99)">Subscribe Now</button>
+      </div>
+    </div>
+    <p class="plans-note">All plans include a 30-day freshness guarantee. No contracts — cancel anytime with one click.</p>
+  </div>
+</section>
+
+<section class="section" style="max-width:720px;margin:0 auto">
+  <div class="container">
+    <div class="section-head centered" style="margin-bottom:2.5rem"><p class="eyebrow">FAQ</p><h2>Questions answered</h2></div>
+    <div id="faqList"></div>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container cta-strip-inner">
+    <div><h3>Ready to never run out of milk again?</h3><p>Join 18,000+ households who trust Meadowpure every week.</p></div>
+    <button class="btn-primary" style="font-size:1rem;padding:1rem 2.5rem" onclick="subscribe('Family',29.99)">Start Your Subscription</button>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-brand"><a href="index.html" class="logo" style="margin-bottom:1rem;display:flex"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#3D5A3E"/><path d="M10 22 Q16 8 22 22" stroke="#F5EDD8" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#C8903A"/></svg><span class="logo-text" style="color:#fff">Meadow<em>pure</em></span></a><p>Pure milk, honestly made. Family-owned since 1948.</p></div>
+    <div class="footer-col"><h5>Shop</h5><ul><li><a href="shop.html">All Products</a></li><li><a href="subscriptions.html">Subscriptions</a></li></ul></div>
+    <div class="footer-col"><h5>Company</h5><ul><li><a href="about.html">Our Story</a></li><li><a href="blog.html">Journal</a></li></ul></div>
+    <div class="footer-col"><h5>Help</h5><ul><li><a href="account.html">My Account</a></li></ul></div>
+    <div class="footer-col"><h5>Contact</h5><ul><li><a href="mailto:hello@meadowpure.com">hello@meadowpure.com</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Meadowpure Dairy Co. All rights reserved.</p><div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div></div>
+</footer>
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+async function subscribe(plan, price) {
+  if (!Auth.isLoggedIn()) {
+    showToast('Please sign in to subscribe', 'error');
+    setTimeout(() => window.location.href = 'account.html', 1500);
+    return;
+  }
+  const data = await apiFetch('/api/subscriptions', 'POST', {
+    plan_name: plan, frequency: 'weekly', price,
+    items: [{ product_id: 1, quantity: 2 }]
+  });
+  if (data.success) {
+    showToast(`🎉 ${plan} plan activated! Check your account.`, 'success');
+    setTimeout(() => window.location.href = 'account.html', 2000);
+  } else {
+    showToast(data.message || 'Failed. Try again.', 'error');
+  }
+}
+
+const FAQS = [
+  { q: 'Can I change my subscription products?', a: 'Yes! Log into your account and edit your subscription box anytime. Changes apply to the next scheduled delivery.' },
+  { q: 'How do I pause or skip a delivery?', a: 'From your account dashboard, you can pause your subscription or skip individual deliveries with just one click.' },
+  { q: 'Is there a minimum subscription term?', a: 'No minimum at all. You can cancel anytime with no fees or penalties.' },
+  { q: 'When will I be charged?', a: 'Your card is charged 2 days before each scheduled delivery. You\'ll receive an email reminder 3 days before.' },
+  { q: 'Do I get 15% off my very first order too?', a: 'Yes — the 15% discount applies from your very first delivery and every delivery after that.' },
+];
+
+document.getElementById('faqList').innerHTML = FAQS.map(f => `
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">${f.q}</button>
+    <div class="faq-a"><p>${f.a}</p></div>
+  </div>`).join('');
+
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const ans = item.querySelector('.faq-a');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight = '0'; });
+  if (!isOpen) { item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
+}
+</script>
+</body>
+</html>

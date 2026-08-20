@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Journal — Meadowpure Dairy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .blog-hero{background:linear-gradient(135deg,#F5EDD8,#E8D8A8);padding:6rem 0 4rem;text-align:center}
+    .blog-hero h1{font-size:clamp(2.5rem,5vw,4rem);color:var(--dark);margin-bottom:0.8rem}
+    .blog-hero p{color:var(--muted);max-width:500px;margin:0 auto;font-size:1rem;line-height:1.7}
+    .blog-cats{display:flex;gap:0.8rem;flex-wrap:wrap;margin-bottom:3rem;justify-content:center}
+    .blog-cat{padding:0.45rem 1.2rem;border-radius:50px;border:1.5px solid var(--border);background:transparent;font-size:0.82rem;font-weight:600;cursor:pointer;transition:var(--trans);color:var(--muted);font-family:inherit}
+    .blog-cat.active,.blog-cat:hover{background:var(--green);color:#fff;border-color:var(--green)}
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+    .blog-card{background:#fff;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);transition:var(--trans)}
+    .blog-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+    .blog-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:5rem}
+    .blog-body{padding:1.5rem}
+    .blog-tag{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);margin-bottom:0.6rem;display:block}
+    .blog-body h3{font-family:'Fraunces',serif;font-size:1.15rem;margin-bottom:0.5rem;color:var(--dark);line-height:1.3}
+    .blog-body p{font-size:0.85rem;color:var(--muted);line-height:1.65;margin-bottom:1rem}
+    .blog-meta{display:flex;align-items:center;justify-content:space-between;font-size:0.78rem;color:var(--muted)}
+    .blog-author{display:flex;align-items:center;gap:0.5rem}
+    .blog-av{width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700}
+    .nl-strip{background:var(--green);color:#fff;padding:4rem 0;text-align:center}
+    .nl-strip h3{font-size:1.8rem;margin-bottom:0.5rem}
+    .nl-strip p{opacity:0.8;margin-bottom:1.5rem}
+    .nl-row{display:flex;gap:0.7rem;justify-content:center;flex-wrap:wrap}
+    .nl-row input{padding:0.85rem 1.4rem;border-radius:50px;border:none;font-size:0.9rem;width:280px;outline:none}
+    @media(max-width:768px){.blog-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="ann-bar">🚚 Free delivery on orders over $40<button onclick="this.parentElement.style.display='none'">✕</button></div>
+<header class="header" id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#3D5A3E"/><path d="M10 22 Q16 8 22 22" stroke="#F5EDD8" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#C8903A"/></svg><span class="logo-text">Meadow<em>pure</em></span></a>
+    <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="subscriptions.html">Subscribe</a><a href="about.html">Our Farm</a><a href="blog.html" class="active">Journal</a></nav>
+    <div class="header-actions">
+      <a href="account.html" class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <button class="icon-btn" id="cartToggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-badge" id="cartBadge">0</span></button>
+    </div>
+  </div>
+</header>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer-header"><h3>Your Cart <span id="cartItemCount">(0 items)</span></h3><button class="close-cart" id="closeCart">✕</button></div>
+  <div class="cart-items" id="cartItems"><div class="cart-empty"><span>🛒</span><p>Your cart is empty</p></div></div>
+  <div class="cart-footer" id="cartFooter" style="display:none"><div class="cart-subtotal"><span>Subtotal</span><strong id="cartSubtotal">$0.00</strong></div><a href="checkout.html" class="btn-full btn-dark" style="display:block;padding:1rem;text-align:center;border-radius:12px">Checkout</a></div>
+</aside>
+
+<div class="blog-hero">
+  <div class="container">
+    <p class="eyebrow">From the farm</p>
+    <h1>The Meadowpure Journal</h1>
+    <p>Stories from the pasture, recipes from our kitchen, and honest thoughts on modern dairy farming.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="blog-cats">
+      <button class="blog-cat active">All</button>
+      <button class="blog-cat">Farm Life</button>
+      <button class="blog-cat">Recipes</button>
+      <button class="blog-cat">Nutrition</button>
+      <button class="blog-cat">Sustainability</button>
+    </div>
+    <div class="blog-grid">
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#EEF5F0,#C8DEC4)">🌿</div><div class="blog-body"><span class="blog-tag">Farm Life</span><h3>Why grass-fed milk tastes different — and why that matters</h3><p>There's a reason our milk tastes richer. It comes down to what our cows eat and how much they move.</p><div class="blog-meta"><div class="blog-author"><div class="blog-av">C</div><span>Clara · Jul 28</span></div><span>8 min</span></div></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#FFF5E0,#F0D9A8)">🍳</div><div class="blog-body"><span class="blog-tag">Recipes</span><h3>The perfect béchamel — our chef's 3-ingredient secret</h3><p>Great béchamel starts with great milk. Our head chef shares the technique that makes the difference.</p><div class="blog-meta"><div class="blog-author"><div class="blog-av" style="background:var(--gold)">M</div><span>Marie · Jul 22</span></div><span>4 min</span></div></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#F5EDE0,#D4A46A)">🔬</div><div class="blog-body"><span class="blog-tag">Nutrition</span><h3>Is whole milk actually better for you? What the research says</h3><p>The decades-long war on saturated fat left whole milk unfairly maligned. New research tells a different story.</p><div class="blog-meta"><div class="blog-author"><div class="blog-av" style="background:#5C3D1E">R</div><span>Dr. Rachel · Jul 15</span></div><span>6 min</span></div></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#EDF2F0,#B8D4C8)">♻️</div><div class="blog-body"><span class="blog-tag">Sustainability</span><h3>How we cut our water usage by 62% in four years</h3><p>Water is the resource most dairy farms overlook. Here's the closed-loop system we built.</p><div class="blog-meta"><div class="blog-author"><div class="blog-av" style="background:#7A8C6E">M</div><span>Marcus · Jul 8</span></div><span>5 min</span></div></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#FAF6EE,#F0E8D0)">🌅</div><div class="blog-body"><span class="blog-tag">Farm Life</span><h3>A day in the life: 4am milking on the Ashworth farm</h3><p>Most people are asleep when our day begins. We took a camera into the barn to show you.</p><div class="blog-meta"><div class="blog-author"><div class="blog-av">C</div><span>Clara · Jun 30</span></div><span>7 min</span></div></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#E8F0E8,#B8D0B8)">🍦</div><div class="blog-body"><span class="blog-tag">Recipes</span><h3>Three-ingredient no-churn ice cream using whole milk</h3><p>You don't need an ice cream machine. Just our whole milk, cream, and one pantry staple.</p><div class="blog-meta"><div class="blog-author"><div class="blog-av" style="background:var(--gold)">M</div><span>Marie · Jun 22</span></div><span>3 min</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="nl-strip">
+  <div class="container">
+    <h3>Get farm stories in your inbox</h3>
+    <p>New articles every week. No spam, ever.</p>
+    <div class="nl-row">
+      <input type="email" placeholder="your@email.com"/>
+      <button class="btn-primary" onclick="showToast('🎉 Subscribed! Welcome to the journal.','success')">Subscribe Free</button>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-brand"><a href="index.html" class="logo" style="margin-bottom:1rem;display:flex"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#3D5A3E"/><path d="M10 22 Q16 8 22 22" stroke="#F5EDD8" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#C8903A"/></svg><span class="logo-text" style="color:#fff">Meadow<em>pure</em></span></a><p>Pure milk, honestly made. Family-owned since 1948.</p></div>
+    <div class="footer-col"><h5>Shop</h5><ul><li><a href="shop.html">All Products</a></li><li><a href="subscriptions.html">Subscriptions</a></li></ul></div>
+    <div class="footer-col"><h5>Company</h5><ul><li><a href="about.html">Our Story</a></li><li><a href="blog.html">Journal</a></li></ul></div>
+    <div class="footer-col"><h5>Help</h5><ul><li><a href="account.html">My Account</a></li></ul></div>
+    <div class="footer-col"><h5>Contact</h5><ul><li><a href="mailto:hello@meadowpure.com">hello@meadowpure.com</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Meadowpure Dairy Co. All rights reserved.</p><div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div></div>
+</footer>
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+document.querySelectorAll('.blog-cat').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.blog-cat').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

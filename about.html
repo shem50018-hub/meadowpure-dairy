@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Farm — Meadowpure Dairy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .about-hero{background:linear-gradient(150deg,#2C4230 0%,#3D5A3E 60%,#5C7A4E 100%);color:#fff;padding:8rem 5% 5rem;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:3rem}
+    .about-hero h1{font-size:clamp(3rem,5vw,5rem);color:var(--milk);margin-bottom:1rem;line-height:1.05}
+    .about-hero h1 em{color:#E0A84A}
+    .about-hero p{color:rgba(245,237,216,0.8);font-size:1.05rem;line-height:1.7;max-width:440px}
+    .about-visual{font-size:8rem;text-align:center;animation:float 5s ease-in-out infinite}
+    .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .story-img{height:420px;background:linear-gradient(135deg,#E8D8A8,#D0C090);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;font-size:8rem;box-shadow:var(--shadow-lg)}
+    .story-text h2{font-size:clamp(1.8rem,3vw,2.4rem);margin-bottom:1.2rem}
+    .story-text p{color:var(--muted);line-height:1.8;margin-bottom:1rem}
+    .timeline{max-width:700px;margin:0 auto;position:relative}
+    .timeline::before{content:'';position:absolute;left:100px;top:0;bottom:0;width:2px;background:var(--border)}
+    .tl-item{display:grid;grid-template-columns:80px 20px 1fr;gap:1.5rem;align-items:start;margin-bottom:2.5rem}
+    .tl-year{font-family:'Fraunces',serif;font-size:1.1rem;color:var(--gold);text-align:right;padding-top:0.2rem;font-weight:600}
+    .tl-dot{width:14px;height:14px;background:var(--green);border-radius:50%;margin-top:0.4rem;border:3px solid var(--milk);box-shadow:0 0 0 2px var(--green);position:relative;z-index:1}
+    .tl-content h4{font-size:1rem;margin-bottom:0.4rem}
+    .tl-content p{font-size:0.85rem;color:var(--muted);line-height:1.65}
+    .sustain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .sustain-card{background:#fff;border-radius:var(--radius-lg);padding:1.8rem;border:1px solid var(--border);transition:var(--trans)}
+    .sustain-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+    .sustain-icon{font-size:2rem;display:block;margin-bottom:0.8rem}
+    .sustain-card h4{font-size:1rem;margin-bottom:0.5rem}
+    .sustain-card p{font-size:0.85rem;color:var(--muted);line-height:1.65}
+    .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+    .team-card{text-align:center;background:#fff;border-radius:var(--radius-lg);padding:2rem 1.5rem;border:1px solid var(--border)}
+    .team-av{width:72px;height:72px;border-radius:50%;color:#fff;font-size:1.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+    .team-card h4{font-size:1.05rem;margin-bottom:0.2rem}
+    .team-role{font-size:0.8rem;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.8rem;display:block}
+    .team-bio{font-size:0.85rem;color:var(--muted);line-height:1.65}
+    .about-cta{background:var(--dark);color:#fff;padding:5rem 0}
+    .about-cta-inner{display:flex;justify-content:space-between;align-items:center;gap:3rem;flex-wrap:wrap}
+    .about-cta h2{font-size:clamp(1.8rem,3vw,2.4rem);margin-bottom:0.6rem;color:var(--milk)}
+    .about-cta p{opacity:0.7;font-size:0.9rem}
+    @media(max-width:768px){.about-hero,.story-grid{grid-template-columns:1fr}.about-visual,.timeline::before{display:none}.sustain-grid,.team-grid{grid-template-columns:1fr}.about-cta-inner{flex-direction:column;text-align:center}}
+  </style>
+</head>
+<body>
+<div class="ann-bar">🚚 Free delivery on orders over $40<button onclick="this.parentElement.style.display='none'">✕</button></div>
+<header class="header" id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#3D5A3E"/><path d="M10 22 Q16 8 22 22" stroke="#F5EDD8" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#C8903A"/></svg><span class="logo-text">Meadow<em>pure</em></span></a>
+    <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="subscriptions.html">Subscribe</a><a href="about.html" class="active">Our Farm</a><a href="blog.html">Journal</a></nav>
+    <div class="header-actions">
+      <a href="account.html" class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <button class="icon-btn" id="cartToggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-badge" id="cartBadge">0</span></button>
+    </div>
+  </div>
+</header>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer-header"><h3>Your Cart <span id="cartItemCount">(0 items)</span></h3><button class="close-cart" id="closeCart">✕</button></div>
+  <div class="cart-items" id="cartItems"><div class="cart-empty"><span>🛒</span><p>Your cart is empty</p></div></div>
+  <div class="cart-footer" id="cartFooter" style="display:none"><div class="cart-subtotal"><span>Subtotal</span><strong id="cartSubtotal">$0.00</strong></div><a href="checkout.html" class="btn-full btn-dark" style="display:block;padding:1rem;text-align:center;border-radius:12px">Checkout</a></div>
+</aside>
+
+<div class="about-hero">
+  <div>
+    <p class="eyebrow" style="color:rgba(245,237,216,0.7)">Est. 1948 · Vermont, USA</p>
+    <h1>Three generations.<br>One <em>promise.</em></h1>
+    <p>Real farming, honest milk, and deep respect for the land that feeds us all.</p>
+    <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+      <a href="shop.html" class="btn-primary">Shop Our Milk</a>
+      <a href="subscriptions.html" class="btn-ghost">Subscribe &amp; Save</a>
+    </div>
+  </div>
+  <div class="about-visual">🐄🌾🏡</div>
+</div>
+
+<section class="section">
+  <div class="container story-grid" id="farm">
+    <div class="story-img">🐄</div>
+    <div class="story-text">
+      <p class="eyebrow">The Beginning</p>
+      <h2>Harold &amp; Edna Ashworth, 1948</h2>
+      <p>In the spring of 1948, Harold and Edna Ashworth paid $3,200 for 60 acres of Vermont hillside and six Jersey cows. Edna had a simple rule: if you wouldn't feed it to your children, don't sell it to anyone else's.</p>
+      <p>Today their granddaughter Clara runs the same land — now 400 acres of certified organic pasture — guided by the same principle, backed by modern soil science and regenerative grazing practices.</p>
+      <a href="shop.html" class="btn-outline" style="margin-top:1.5rem;display:inline-flex">Shop Our Products →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--milk)">
+  <div class="container">
+    <div class="section-head centered"><p class="eyebrow">Our History</p><h2>75 years in the making</h2></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-year">1948</div><div class="tl-dot"></div><div class="tl-content"><h4>The farm is born</h4><p>Harold and Edna Ashworth purchase 60 acres in Addison County, Vermont, with six Jersey cows and a dream.</p></div></div>
+      <div class="tl-item"><div class="tl-year">1971</div><div class="tl-dot"></div><div class="tl-content"><h4>Second generation</h4><p>Son Robert takes over, doubles the herd to 120, and builds the original cold-storage facility still used today.</p></div></div>
+      <div class="tl-item"><div class="tl-year">1989</div><div class="tl-dot"></div><div class="tl-content"><h4>USDA Organic certified</h4><p>Meadowpure becomes one of the first Vermont dairies to achieve USDA Organic certification.</p></div></div>
+      <div class="tl-item"><div class="tl-year">2004</div><div class="tl-dot"></div><div class="tl-content"><h4>Third generation</h4><p>Clara Ashworth-Hughes joins full-time after studying Agricultural Science at UVM, introducing regenerative grazing.</p></div></div>
+      <div class="tl-item"><div class="tl-year">2018</div><div class="tl-dot"></div><div class="tl-content"><h4>Direct-to-consumer launch</h4><p>Meadowpure launches online delivery, selling out the first 500 orders in 48 hours.</p></div></div>
+      <div class="tl-item"><div class="tl-year">2024</div><div class="tl-dot"></div><div class="tl-content"><h4>B Corp Certified</h4><p>After three years of assessment, Meadowpure earns B Corp certification.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sustainability">
+  <div class="container">
+    <div class="section-head centered"><p class="eyebrow">Sustainability</p><h2>Good for the cow. Good for the planet.</h2></div>
+    <div class="sustain-grid">
+      <div class="sustain-card"><span class="sustain-icon">🌱</span><h4>Regenerative Grazing</h4><p>Our rotational grazing system allows pastures to fully recover, sequestering carbon and rebuilding soil health every year.</p></div>
+      <div class="sustain-card"><span class="sustain-icon">☀️</span><h4>Solar-Powered Barns</h4><p>Since 2020, 100% of our on-farm energy comes from solar panels installed across our barns and processing facilities.</p></div>
+      <div class="sustain-card"><span class="sustain-icon">♻️</span><h4>Zero-Waste Packaging</h4><p>Our bottles are 100% recyclable glass or rPET. We've eliminated single-use plastic from all packaging as of 2023.</p></div>
+      <div class="sustain-card"><span class="sustain-icon">🚛</span><h4>Carbon-Neutral Delivery</h4><p>We offset 100% of delivery emissions through verified reforestation projects.</p></div>
+      <div class="sustain-card"><span class="sustain-icon">💧</span><h4>Water Stewardship</h4><p>A closed-loop water recycling system has reduced our water consumption by 62% since 2019.</p></div>
+      <div class="sustain-card"><span class="sustain-icon">🐝</span><h4>Biodiversity</h4><p>We maintain 40 acres of wildflower meadow and host 18 managed bee colonies on our land.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--milk)">
+  <div class="container">
+    <div class="section-head centered"><p class="eyebrow">The People</p><h2>Meet the team behind every bottle</h2></div>
+    <div class="team-grid">
+      <div class="team-card"><div class="team-av" style="background:linear-gradient(135deg,#3D5A3E,#2C4230)">C</div><h4>Clara Ashworth-Hughes</h4><span class="team-role">Owner &amp; Head Farmer</span><p class="team-bio">Third-generation farmer. BSc Agricultural Science, UVM. Passionate about regenerative farming.</p></div>
+      <div class="team-card"><div class="team-av" style="background:linear-gradient(135deg,#C8903A,#A0702A)">M</div><h4>Marcus Webb</h4><span class="team-role">Head of Operations</span><p class="team-bio">20 years in food logistics. Built the cold-chain delivery network reaching 32 states within 24 hours.</p></div>
+      <div class="team-card"><div class="team-av" style="background:linear-gradient(135deg,#7A8C6E,#5A6C4E)">R</div><h4>Dr. Rachel Tran</h4><span class="team-role">Dairy Scientist</span><p class="team-bio">Food science PhD from Cornell. Oversees every batch test, quality audit, and nutritional analysis.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="about-cta">
+  <div class="container about-cta-inner">
+    <div><h2>Taste the difference care makes.</h2><p>Every bottle starts with a healthy cow on healthy land. That's not marketing — that's just how we've always done it.</p></div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap"><a href="shop.html" class="btn-primary">Shop Now</a><a href="subscriptions.html" class="btn-ghost">Subscribe &amp; Save</a></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-brand"><a href="index.html" class="logo" style="margin-bottom:1rem;display:flex"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#3D5A3E"/><path d="M10 22 Q16 8 22 22" stroke="#F5EDD8" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#C8903A"/></svg><span class="logo-text" style="color:#fff">Meadow<em>pure</em></span></a><p>Pure milk, honestly made. Family-owned since 1948.</p></div>
+    <div class="footer-col"><h5>Shop</h5><ul><li><a href="shop.html">All Products</a></li><li><a href="subscriptions.html">Subscriptions</a></li></ul></div>
+    <div class="footer-col"><h5>Company</h5><ul><li><a href="about.html">Our Story</a></li><li><a href="blog.html">Journal</a></li></ul></div>
+    <div class="footer-col"><h5>Help</h5><ul><li><a href="account.html">My Account</a></li><li><a href="checkout.html">Checkout</a></li></ul></div>
+    <div class="footer-col"><h5>Contact</h5><ul><li><a href="mailto:hello@meadowpure.com">hello@meadowpure.com</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Meadowpure Dairy Co. All rights reserved.</p><div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div></div>
+</footer>
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+</body>
+</html>

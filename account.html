@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Account — Meadowpure Dairy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="ann-bar">🚚 Free delivery on orders over $40<button onclick="this.parentElement.style.display='none'">✕</button></div>
+<header class="header" id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#3D5A3E"/><path d="M10 22 Q16 8 22 22" stroke="#F5EDD8" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#C8903A"/></svg><span class="logo-text">Meadow<em>pure</em></span></a>
+    <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="subscriptions.html">Subscribe</a><a href="about.html">Our Farm</a></nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="cartToggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-badge" id="cartBadge">0</span></button>
+    </div>
+  </div>
+</header>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer-header"><h3>Your Cart <span id="cartItemCount">(0 items)</span></h3><button class="close-cart" id="closeCart">✕</button></div>
+  <div class="cart-items" id="cartItems"><div class="cart-empty"><span>🛒</span><p>Your cart is empty</p></div></div>
+  <div class="cart-footer" id="cartFooter" style="display:none"><div class="cart-subtotal"><span>Subtotal</span><strong id="cartSubtotal">$0.00</strong></div><a href="checkout.html" class="btn-full btn-dark" style="display:block;padding:1rem;text-align:center;border-radius:12px">Checkout</a></div>
+</aside>
+
+<main class="account-main">
+
+  <!-- AUTH PANEL -->
+  <div class="auth-container" id="authPanel">
+    <div class="auth-card">
+      <div class="auth-logo"><svg width="48" height="48" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#3D5A3E"/><path d="M10 22 Q16 8 22 22" stroke="#F5EDD8" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#C8903A"/></svg></div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
+        <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Create Account</button>
+      </div>
+      <p style="color:#c0392b;font-size:0.82rem;text-align:center;margin-bottom:1rem;display:none" id="authError"></p>
+
+      <!-- LOGIN -->
+      <div id="loginForm">
+        <div class="form-group"><label>Email</label><input type="email" class="form-input" id="loginEmail" placeholder="you@example.com"/></div>
+        <div class="form-group"><label>Password</label><input type="password" class="form-input" id="loginPw" placeholder="••••••••"/></div>
+        <button class="btn-primary" style="width:100%;margin-top:0.5rem" onclick="doLogin()" id="loginBtn">Sign In</button>
+        <div class="auth-divider"><span>or</span></div>
+        <div class="social-auth">
+          <button class="social-btn" onclick="showToast('Google login coming soon')">🇬 Google</button>
+          <button class="social-btn" onclick="showToast('Apple login coming soon')">🍎 Apple</button>
+        </div>
+      </div>
+
+      <!-- REGISTER -->
+      <div id="registerForm" style="display:none">
+        <div class="two-col">
+          <div class="form-group"><label>First name</label><input type="text" class="form-input" id="regFirst" placeholder="Jane"/></div>
+          <div class="form-group"><label>Last name</label><input type="text" class="form-input" id="regLast" placeholder="Smith"/></div>
+        </div>
+        <div class="form-group"><label>Email</label><input type="email" class="form-input" id="regEmail" placeholder="you@example.com"/></div>
+        <div class="form-group"><label>Password (min 8 chars)</label><input type="password" class="form-input" id="regPw" placeholder="••••••••"/></div>
+        <label class="check-label" style="margin-bottom:1rem"><input type="checkbox" id="regNewsletter" checked> Subscribe for 10% off first order</label>
+        <button class="btn-primary" style="width:100%" onclick="doRegister()" id="registerBtn">Create Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dashboard-container hidden" id="dashboard">
+    <div class="dashboard-sidebar">
+      <div class="dash-profile">
+        <div class="dash-avatar" id="dashAvatar">J</div>
+        <div><strong id="dashName">Jane Smith</strong><span id="dashEmail" style="font-size:0.82rem;color:#888;display:block">—</span></div>
+      </div>
+      <nav class="dash-nav">
+        <button class="dash-nav-btn active" onclick="showDashTab('orders',this)">📦 My Orders</button>
+        <button class="dash-nav-btn" onclick="showDashTab('subscriptions',this)">🔄 Subscriptions</button>
+        <button class="dash-nav-btn" onclick="showDashTab('profile',this)">👤 Profile</button>
+        <button class="dash-nav-btn" onclick="doLogout()">🚪 Sign Out</button>
+      </nav>
+    </div>
+    <div class="dashboard-content">
+      <!-- ORDERS -->
+      <div id="tab-orders">
+        <h2>My Orders</h2>
+        <div class="orders-list" id="ordersList"><p style="color:#888">Loading...</p></div>
+      </div>
+      <!-- SUBSCRIPTIONS -->
+      <div id="tab-subscriptions" style="display:none">
+        <h2>My Subscriptions</h2>
+        <div id="subsList"><p style="color:#888">Loading...</p></div>
+      </div>
+      <!-- PROFILE -->
+      <div id="tab-profile" style="display:none">
+        <h2>Profile Settings</h2>
+        <div class="two-col">
+          <div class="form-group"><label>First name</label><input type="text" class="form-input" id="profFirst"/></div>
+          <div class="form-group"><label>Last name</label><input type="text" class="form-input" id="profLast"/></div>
+        </div>
+        <div class="form-group"><label>Email</label><input type="email" class="form-input" id="profEmail"/></div>
+        <div class="form-group"><label>Phone</label><input type="tel" class="form-input" id="profPhone"/></div>
+        <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+function switchAuthTab(tab) {
+  document.getElementById('loginForm').style.display = tab === 'login' ? '' : 'none';
+  document.getElementById('registerForm').style.display = tab === 'register' ? '' : 'none';
+  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+  document.getElementById('authError').style.display = 'none';
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('authError');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw = document.getElementById('loginPw').value;
+  if (!email || !pw) { showAuthError('Please enter email and password'); return; }
+  const btn = document.getElementById('loginBtn');
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+  const data = await apiFetch('/api/auth/login', 'POST', { email, password: pw });
+  if (data.success) {
+    Auth.setSession(data.token, data.user);
+    showDashboard(data.user);
+  } else {
+    showAuthError(data.message || 'Login failed');
+    btn.textContent = 'Sign In'; btn.disabled = false;
+  }
+}
+
+async function doRegister() {
+  const first = document.getElementById('regFirst').value.trim();
+  const last = document.getElementById('regLast').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pw = document.getElementById('regPw').value;
+  if (!first || !email || !pw) { showAuthError('Please fill all fields'); return; }
+  if (pw.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
+  const btn = document.getElementById('registerBtn');
+  btn.textContent = 'Creating...'; btn.disabled = true;
+  const data = await apiFetch('/api/auth/register', 'POST', { first_name: first, last_name: last, email, password: pw, newsletter: document.getElementById('regNewsletter').checked });
+  if (data.success) {
+    Auth.setSession(data.token, data.user);
+    showDashboard(data.user);
+    showToast('Welcome to Meadowpure! 🥛', 'success');
+  } else {
+    showAuthError(data.message || 'Registration failed');
+    btn.textContent = 'Create Account'; btn.disabled = false;
+  }
+}
+
+function doLogout() {
+  Auth.clearSession();
+  document.getElementById('dashboard').classList.add('hidden');
+  document.getElementById('authPanel').classList.remove('hidden');
+}
+
+function showDashboard(user) {
+  document.getElementById('authPanel').classList.add('hidden');
+  document.getElementById('dashboard').classList.remove('hidden');
+  const initials = ((user.first_name||'')[0] + (user.last_name||'')[0]).toUpperCase();
+  document.getElementById('dashAvatar').textContent = initials || 'U';
+  document.getElementById('dashName').textContent = `${user.first_name} ${user.last_name}`;
+  document.getElementById('dashEmail').textContent = user.email;
+  document.getElementById('profFirst').value = user.first_name || '';
+  document.getElementById('profLast').value = user.last_name || '';
+  document.getElementById('profEmail').value = user.email || '';
+  loadOrders();
+}
+
+function showDashTab(tab, btn) {
+  ['orders','subscriptions','profile'].forEach(t => document.getElementById('tab-'+t).style.display = t === tab ? '' : 'none');
+  document.querySelectorAll('.dash-nav-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (tab === 'subscriptions') loadSubscriptions();
+}
+
+async function loadOrders() {
+  const el = document.getElementById('ordersList');
+  const data = await apiFetch('/api/orders/my');
+  if (!data.success || !data.orders?.length) { el.innerHTML = '<p style="color:#888">No orders yet. <a href="shop.html" style="color:#3D5A3E;font-weight:600">Start shopping →</a></p>'; return; }
+  el.innerHTML = data.orders.map(o => `
+    <div class="order-row">
+      <div class="order-info"><strong>#${o.order_number}</strong><span>${new Date(o.created_at).toLocaleDateString()}</span></div>
+      <div class="order-status ${o.status}">${o.status}</div>
+      <div class="order-total">$${parseFloat(o.total).toFixed(2)}</div>
+      <button class="btn-sm" onclick="showToast('Order details coming soon')">View</button>
+    </div>`).join('');
+}
+
+async function loadSubscriptions() {
+  const el = document.getElementById('subsList');
+  const data = await apiFetch('/api/subscriptions/my');
+  if (!data.success || !data.subscriptions?.length) { el.innerHTML = '<p style="color:#888">No active subscriptions. <a href="subscriptions.html" style="color:#3D5A3E;font-weight:600">Subscribe →</a></p>'; return; }
+  el.innerHTML = data.subscriptions.map(s => `
+    <div style="border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:1rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem">
+        <strong>${s.plan_name}</strong>
+        <span style="background:${s.status==='active'?'rgba(61,90,62,0.12)':'rgba(200,144,58,0.15)'};color:${s.status==='active'?'#3D5A3E':'#A0702A'};padding:0.2rem 0.7rem;border-radius:50px;font-size:0.75rem;font-weight:700">${s.status}</span>
+      </div>
+      <p style="font-size:0.85rem;color:#888">$${parseFloat(s.price).toFixed(2)} / ${s.frequency} · Next: ${s.next_delivery ? new Date(s.next_delivery).toLocaleDateString() : '—'}</p>
+      <div style="display:flex;gap:0.7rem;margin-top:0.8rem">
+        <button class="btn-sm" onclick="pauseSub(${s.id})">${s.status==='active'?'Pause':'Resume'}</button>
+        <button class="btn-sm" style="color:#c0392b" onclick="cancelSub(${s.id})">Cancel</button>
+      </div>
+    </div>`).join('');
+}
+
+async function pauseSub(id) {
+  const data = await apiFetch(`/api/subscriptions/${id}/pause`, 'PUT', {});
+  if (data.success) { showToast('Subscription paused', 'success'); loadSubscriptions(); }
+  else showToast(data.message || 'Failed', 'error');
+}
+
+async function cancelSub(id) {
+  if (!confirm('Cancel this subscription?')) return;
+  const data = await apiFetch(`/api/subscriptions/${id}`, 'DELETE');
+  if (data.success) { showToast('Subscription cancelled', 'success'); loadSubscriptions(); }
+  else showToast(data.message || 'Failed', 'error');
+}
+
+async function saveProfile() {
+  const data = await apiFetch('/api/auth/profile', 'PUT', {
+    first_name: document.getElementById('profFirst').value,
+    last_name: document.getElementById('profLast').value,
+    phone: document.getElementById('profPhone').value,
+  });
+  if (data.success) showToast('Profile updated! ✓', 'success');
+  else showToast(data.message || 'Failed', 'error');
+}
+
+// Auto-load dashboard if already logged in
+document.addEventListener('DOMContentLoaded', () => {
+  const user = Auth.getUser();
+  if (user && Auth.getToken()) showDashboard(user);
+});
+</script>
+</body>
+</html>

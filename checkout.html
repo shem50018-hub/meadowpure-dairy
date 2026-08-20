@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout — Meadowpure Dairy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body class="checkout-page">
+
+<header class="header checkout-header" id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#3D5A3E"/><path d="M10 22 Q16 8 22 22" stroke="#F5EDD8" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#C8903A"/></svg><span class="logo-text">Meadow<em>pure</em></span></a>
+    <div class="checkout-steps">
+      <span class="step active" id="s1">1. Information</span>
+      <span class="step-divider">›</span>
+      <span class="step" id="s2">2. Shipping</span>
+      <span class="step-divider">›</span>
+      <span class="step" id="s3">3. Payment</span>
+    </div>
+    <div class="header-secure">🔒 Secure Checkout</div>
+  </div>
+</header>
+
+<main class="checkout-main">
+  <div class="checkout-container">
+    <div class="checkout-form-col">
+
+      <!-- STEP 1 -->
+      <div class="checkout-step-block" id="step1">
+        <h2 class="checkout-step-title">Contact Information</h2>
+        <div class="form-group"><label>Email address</label><input type="email" class="form-input" id="ckEmail" placeholder="you@example.com"/></div>
+        <h2 class="checkout-step-title" style="margin-top:1.5rem">Delivery Address</h2>
+        <div class="two-col">
+          <div class="form-group"><label>First name</label><input type="text" class="form-input" id="ckFirst" placeholder="Jane"/></div>
+          <div class="form-group"><label>Last name</label><input type="text" class="form-input" id="ckLast" placeholder="Smith"/></div>
+        </div>
+        <div class="form-group"><label>Address</label><input type="text" class="form-input" id="ckAddress" placeholder="123 Maple Street"/></div>
+        <div class="three-col">
+          <div class="form-group"><label>City</label><input type="text" class="form-input" id="ckCity" placeholder="Burlington"/></div>
+          <div class="form-group"><label>State</label><input type="text" class="form-input" id="ckState" placeholder="VT"/></div>
+          <div class="form-group"><label>ZIP</label><input type="text" class="form-input" id="ckZip" placeholder="05401"/></div>
+        </div>
+        <div class="form-group"><label>Phone (for SMS updates)</label><input type="tel" class="form-input" id="ckPhone" placeholder="+1 (800) 000-0000"/></div>
+        <button class="btn-primary" style="margin-top:0.5rem;width:100%" onclick="goStep(2)">Continue to Shipping →</button>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="checkout-step-block hidden" id="step2">
+        <h2 class="checkout-step-title">Shipping Method</h2>
+        <div class="shipping-options">
+          <label class="shipping-option"><input type="radio" name="ship" value="standard" checked/><div class="so-details"><div><strong>Standard Delivery</strong><span>2–3 business days</span></div><span class="so-price">Free</span></div></label>
+          <label class="shipping-option"><input type="radio" name="ship" value="express"/><div class="so-details"><div><strong>Express Delivery</strong><span>Next business day</span></div><span class="so-price">$6.99</span></div></label>
+          <label class="shipping-option"><input type="radio" name="ship" value="sameday"/><div class="so-details"><div><strong>Same-Day Delivery</strong><span>Order by 12pm</span></div><span class="so-price">$12.99</span></div></label>
+        </div>
+        <div class="checkout-nav">
+          <button class="btn-outline" onclick="goStep(1)">← Back</button>
+          <button class="btn-primary" onclick="goStep(3)">Continue to Payment →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="checkout-step-block hidden" id="step3">
+        <h2 class="checkout-step-title">Payment</h2>
+        <p class="secure-note">🔒 All transactions are secure and encrypted.</p>
+        <div class="payment-tabs">
+          <button class="pay-tab active" onclick="switchPay(this,'card')">💳 Card</button>
+          <button class="pay-tab" onclick="switchPay(this,'mpesa')">📱 M-Pesa</button>
+          <button class="pay-tab" onclick="switchPay(this,'paypal')">🅿️ PayPal</button>
+        </div>
+        <div id="pay-card">
+          <div class="form-group"><label>Card number</label><input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" oninput="this.value=this.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim()"/></div>
+          <div class="two-col">
+            <div class="form-group"><label>Expiry</label><input type="text" class="form-input" placeholder="MM / YY" maxlength="7"/></div>
+            <div class="form-group"><label>CVV</label><input type="text" class="form-input" placeholder="123" maxlength="4"/></div>
+          </div>
+          <div class="form-group"><label>Name on card</label><input type="text" class="form-input" placeholder="Jane Smith"/></div>
+        </div>
+        <div id="pay-mpesa" style="display:none">
+          <div class="form-group"><label>M-Pesa Phone Number</label><input type="tel" class="form-input" id="mpesaPhone" placeholder="0712345678"/></div>
+          <p style="font-size:0.82rem;color:#888;margin-top:0.5rem">You will receive an STK Push prompt on your phone.</p>
+        </div>
+        <div id="pay-paypal" style="display:none">
+          <div style="background:var(--milk);border-radius:var(--radius);padding:2rem;text-align:center;font-size:0.9rem;color:#888">You'll be redirected to PayPal to complete your purchase.</div>
+        </div>
+        <div class="form-group" style="margin-top:1.2rem">
+          <label>Discount code</label>
+          <div class="coupon-row"><input type="text" class="form-input" id="couponInput" placeholder="WELCOME10"/><button class="btn-sm btn-dark" onclick="applyCoupon()">Apply</button></div>
+          <p class="coupon-msg" id="couponMsg"></p>
+        </div>
+        <div class="checkout-nav" style="margin-top:1rem">
+          <button class="btn-outline" onclick="goStep(2)">← Back</button>
+          <button class="btn-primary" onclick="placeOrder()">🔒 Place Order</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="checkout-summary-col">
+      <div class="order-summary-card">
+        <h3>Order Summary</h3>
+        <div class="summary-items" id="summaryItems"></div>
+        <div class="summary-line"><span>Subtotal</span><span id="sumSub">$0.00</span></div>
+        <div class="summary-line"><span>Shipping</span><span id="sumShip">Calculated next</span></div>
+        <div class="summary-line hidden" id="discountLine" style="color:#3D5A3E"><span>Discount</span><span id="sumDiscount">-$0.00</span></div>
+        <div class="summary-line summary-total"><span>Total</span><strong id="sumTotal">$0.00</strong></div>
+        <div class="summary-guarantee"><div>✓ 30-day freshness guarantee</div><div>✓ Free returns</div><div>✓ Secure checkout</div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay hidden" id="successModal">
+  <div class="modal">
+    <div class="success-icon">✓</div>
+    <h2>Order Confirmed!</h2>
+    <p>Thank you! A confirmation has been sent to <strong id="confirmEmail">—</strong></p>
+    <p class="order-num">Order #<span id="orderNum"></span></p>
+    <a href="index.html" class="btn-primary" style="margin-top:1.5rem;display:inline-flex">Back to Home</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+let discount = 0;
+
+function goStep(n) {
+  if (n === 2) {
+    if (!document.getElementById('ckEmail').value || !document.getElementById('ckFirst').value || !document.getElementById('ckAddress').value) {
+      showToast('Please fill all required fields', 'error'); return;
+    }
+    document.getElementById('sumShip').textContent = 'Free';
+  }
+  [1,2,3].forEach(i => {
+    document.getElementById('step'+i).classList.add('hidden');
+    document.getElementById('s'+i).classList.remove('active');
+  });
+  document.getElementById('step'+n).classList.remove('hidden');
+  document.getElementById('s'+n).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function switchPay(btn, type) {
+  document.querySelectorAll('.pay-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['card','mpesa','paypal'].forEach(t => document.getElementById('pay-'+t).style.display = t === type ? '' : 'none');
+}
+
+async function applyCoupon() {
+  const code = document.getElementById('couponInput').value.trim();
+  if (!code) return;
+  const data = await apiFetch(`/api/orders/validate-coupon/${code}`);
+  const msg = document.getElementById('couponMsg');
+  if (data.success) {
+    const sub = parseFloat(document.getElementById('sumSub').textContent.replace('$',''));
+    discount = data.coupon.discount_type === 'percentage' ? sub * data.coupon.discount_value / 100 : data.coupon.discount_value;
+    document.getElementById('discountLine').classList.remove('hidden');
+    document.getElementById('sumDiscount').textContent = `-$${discount.toFixed(2)}`;
+    document.getElementById('sumTotal').textContent = `$${(sub - discount + (sub >= 40 ? 0 : 5.99)).toFixed(2)}`;
+    msg.textContent = `✓ ${data.coupon.discount_value}% discount applied!`; msg.style.color = '#3D5A3E';
+  } else { msg.textContent = '✗ Invalid code'; msg.style.color = '#c0392b'; }
+}
+
+async function placeOrder() {
+  const items = cart.map(c => ({ product_id: c.id, quantity: c.qty }));
+  if (!items.length) { showToast('Your cart is empty', 'error'); return; }
+  const ship = document.querySelector('input[name="ship"]:checked')?.value;
+  const body = {
+    items,
+    ship_name: `${document.getElementById('ckFirst').value} ${document.getElementById('ckLast').value}`,
+    ship_address: document.getElementById('ckAddress').value,
+    ship_city: document.getElementById('ckCity').value,
+    ship_state: document.getElementById('ckState').value,
+    ship_zip: document.getElementById('ckZip').value,
+    guest_email: document.getElementById('ckEmail').value,
+    phone: document.getElementById('ckPhone').value,
+    shipping_method: ship,
+    payment_method: document.querySelector('.pay-tab.active')?.textContent.includes('M-Pesa') ? 'mpesa' : 'card',
+    coupon_code: document.getElementById('couponInput').value || undefined,
+  };
+
+  showToast('Placing order...', '');
+  const data = await apiFetch('/api/orders', 'POST', body);
+  if (data.success) {
+    // M-Pesa STK push
+    if (body.payment_method === 'mpesa' && body.phone) {
+      const total = parseFloat(document.getElementById('sumTotal').textContent.replace('$',''));
+      await apiFetch('/api/mpesa/stkpush', 'POST', { phone: body.phone, amount: total, order_id: data.order.id });
+      showToast('M-Pesa prompt sent to your phone! Enter your PIN.', 'success');
+    }
+    localStorage.removeItem('mp_cart');
+    document.getElementById('confirmEmail').textContent = body.guest_email;
+    document.getElementById('orderNum').textContent = data.order.order_number;
+    document.getElementById('successModal').classList.remove('hidden');
+  } else showToast('❌ ' + (data.message || 'Order failed'), 'error');
+}
+
+// Build summary
+document.addEventListener('DOMContentLoaded', () => {
+  const el = document.getElementById('summaryItems');
+  if (!cart.length) { el.innerHTML = '<p style="color:#888;font-size:0.85rem">No items</p>'; return; }
+  el.innerHTML = cart.map(item => `
+    <div class="sum-item">
+      <div class="sum-item-emoji">${item.emoji||'🥛'}<span class="sum-item-qty">${item.qty}</span></div>
+      <div class="sum-item-info"><strong>${item.name}</strong><span style="font-size:0.78rem;color:#888;display:block">${item.size||''}</span></div>
+      <span class="sum-item-price">$${(parseFloat(item.price)*item.qty).toFixed(2)}</span>
+    </div>`).join('');
+  const sub = getCartTotal();
+  document.getElementById('sumSub').textContent = `$${sub.toFixed(2)}`;
+  document.getElementById('sumTotal').textContent = `$${sub.toFixed(2)}`;
+});
+</script>
+</body>
+</html>

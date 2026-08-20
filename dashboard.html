@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meadowpure — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--green:#3D5A3E;--gold:#C8903A;--dark:#1A1A1A;--red:#c0392b;--border:#E8E4DC;--radius:12px}
+    body{font-family:'Instrument Sans',sans-serif;background:#F4F3F0;display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+    a{text-decoration:none;color:inherit}
+    button{font-family:inherit;cursor:pointer}
+
+    /* SIDEBAR */
+    .sidebar{background:var(--dark);color:#fff;padding:1.5rem;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+    .s-logo{display:flex;align-items:center;gap:0.7rem;font-family:'Fraunces',serif;font-size:1.3rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:1.5rem;color:var(--gold)}
+    .nav-btn{width:100%;text-align:left;padding:0.75rem 1rem;border-radius:10px;border:none;background:transparent;font-size:0.87rem;font-weight:500;cursor:pointer;color:rgba(255,255,255,0.65);font-family:inherit;margin-bottom:0.2rem;transition:all 0.2s}
+    .nav-btn:hover,.nav-btn.active{background:rgba(200,144,58,0.2);color:var(--gold)}
+    .s-footer{margin-top:auto;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1)}
+    .s-footer a{display:block;text-align:center;padding:0.6rem;border:1px solid rgba(255,255,255,0.3);border-radius:50px;font-size:0.82rem;color:rgba(255,255,255,0.7);transition:all 0.2s}
+    .s-footer a:hover{background:rgba(255,255,255,0.1);color:#fff}
+
+    /* MAIN */
+    .main{padding:2rem;overflow-y:auto}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+    .topbar h1{font-family:'Fraunces',serif;font-size:1.8rem}
+    .topbar p{font-size:0.83rem;color:#888;margin-top:0.2rem}
+    .topbar-right{display:flex;align-items:center;gap:1rem}
+    .avatar{width:38px;height:38px;background:var(--gold);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem}
+
+    /* TABS */
+    .tab{display:none}
+    .tab.active{display:block}
+
+    /* CARDS */
+    .card{background:#fff;border-radius:var(--radius);padding:1.5rem;border:1px solid var(--border);margin-bottom:1.5rem}
+    .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:0.8rem}
+    .card-header h3{font-size:1rem;font-family:'Fraunces',serif}
+
+    /* KPI */
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+    .kpi{background:#fff;border-radius:var(--radius);padding:1.3rem 1.5rem;border:1px solid var(--border)}
+    .kpi-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:0.5rem}
+    .kpi-val{font-family:'Fraunces',serif;font-size:2rem;color:var(--dark);line-height:1}
+    .kpi-sub{font-size:0.72rem;color:var(--green);margin-top:0.3rem}
+
+    /* TWO-COL GRID */
+    .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:1.5rem}
+
+    /* TABLE */
+    .tbl{width:100%;border-collapse:collapse;font-size:0.84rem}
+    .tbl th{text-align:left;padding:0.55rem 0.8rem;border-bottom:2px solid var(--border);font-size:0.73rem;text-transform:uppercase;letter-spacing:0.08em;color:#888}
+    .tbl td{padding:0.8rem 0.8rem;border-bottom:1px solid #F5F2EC;vertical-align:middle}
+    .tbl tr:last-child td{border-bottom:none}
+    .tbl tr:hover td{background:#FDFAF5}
+
+    /* BADGES */
+    .badge{display:inline-block;padding:0.2rem 0.65rem;border-radius:50px;font-size:0.72rem;font-weight:700;text-transform:uppercase}
+    .b-green{background:rgba(61,90,62,0.12);color:var(--green)}
+    .b-gold{background:rgba(200,144,58,0.15);color:#A0702A}
+    .b-blue{background:rgba(100,130,200,0.15);color:#4060A0}
+    .b-red{background:rgba(192,57,43,0.1);color:var(--red)}
+    .b-grey{background:#F0ECE4;color:#666}
+
+    /* BUTTONS */
+    .btn{padding:0.38rem 0.85rem;border-radius:6px;border:1px solid var(--border);background:#fff;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;color:#555}
+    .btn:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+    .btn-red{color:var(--red)!important;border-color:var(--red)!important}
+    .btn-red:hover{background:var(--red)!important;color:#fff!important}
+    .btn-primary{background:var(--green);color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:50px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s}
+    .btn-primary:hover{background:#2C4230}
+    .btn-actions{display:flex;gap:0.4rem;flex-wrap:wrap}
+
+    /* FORM */
+    .fg{margin-bottom:1rem}
+    .fg label{display:block;font-size:0.82rem;font-weight:600;color:#666;margin-bottom:0.4rem}
+    .fi{width:100%;padding:0.7rem 1rem;border:1.5px solid var(--border);border-radius:10px;font-size:0.9rem;font-family:inherit;outline:none}
+    .fi:focus{border-color:var(--green)}
+    .grid2f{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+    /* CHART */
+    .chart{display:flex;align-items:flex-end;gap:3px;height:140px;padding-top:0.5rem}
+    .bar-w{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px}
+    .bar{width:100%;background:linear-gradient(180deg,var(--gold),#E0A84A);border-radius:2px 2px 0 0;min-height:2px;cursor:pointer}
+    .bar:hover{background:var(--green)}
+    .bar-l{font-size:0.6rem;color:#888}
+
+    /* CAT BARS */
+    .cat-row{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.9rem}
+    .cat-row span:first-child{width:80px;font-size:0.82rem;flex-shrink:0;text-transform:capitalize}
+    .cat-track{flex:1;height:8px;background:#F0ECE4;border-radius:4px;overflow:hidden}
+    .cat-fill{height:100%;border-radius:4px}
+    .cat-row span:last-child{width:40px;text-align:right;font-size:0.82rem;font-weight:600}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:2rem;right:2rem;z-index:999;background:var(--dark);color:#fff;padding:1rem 1.5rem;border-radius:var(--radius);font-size:0.88rem;font-weight:600;transform:translateY(20px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:300px}
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast.success{background:var(--green)}
+    .toast.error{background:var(--red)}
+
+    /* LOGIN */
+    .login-wrap{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;display:flex;align-items:center;justify-content:center}
+    .login-box{background:#fff;border-radius:var(--radius);padding:2.5rem;width:380px;text-align:center}
+    .login-box h2{font-family:'Fraunces',serif;font-size:1.8rem;margin-bottom:0.4rem}
+    .login-box p{color:#888;font-size:0.85rem;margin-bottom:1.5rem}
+    .login-err{color:var(--red);font-size:0.82rem;margin-top:0.5rem;display:none;text-align:center}
+
+    select.fi{appearance:auto}
+    @media(max-width:900px){body{grid-template-columns:1fr}.sidebar{display:none}.kpi-grid{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div style="width:56px;height:56px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.6rem">🥛</div>
+    <h2>Admin Login</h2>
+    <p>Meadowpure Dashboard</p>
+    <div class="fg" style="text-align:left"><label>Email</label><input type="email" class="fi" id="lEmail" value="admin@meadowpure.com"/></div>
+    <div class="fg" style="text-align:left"><label>Password</label><input type="password" class="fi" id="lPw" value="admin123"/></div>
+    <button class="btn-primary" style="width:100%;margin-top:0.5rem" id="lBtn" onclick="doLogin()">Sign In →</button>
+    <p class="login-err" id="lErr"></p>
+    <a href="index.html" style="display:block;margin-top:1.2rem;font-size:0.82rem;color:#888">← Back to Store</a>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="s-logo">🥛 Meadowpure</div>
+  <nav>
+    <button class="nav-btn active" onclick="showTab('dashboard',this)">📊 Dashboard</button>
+    <button class="nav-btn" onclick="showTab('orders',this)">📦 Orders</button>
+    <button class="nav-btn" onclick="showTab('products',this)">🥛 Products</button>
+    <button class="nav-btn" onclick="showTab('customers',this)">👥 Customers</button>
+    <button class="nav-btn" onclick="showTab('analytics',this)">📈 Analytics</button>
+    <button class="nav-btn" onclick="showTab('settings',this)">⚙️ Settings</button>
+  </nav>
+  <div class="s-footer">
+    <a href="index.html">← View Store</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div><h1 id="pageTitle">Dashboard</h1><p id="pageSub">Loading...</p></div>
+    <div class="topbar-right">
+      <button class="btn-primary" onclick="showTab('products',document.querySelectorAll('.nav-btn')[2]);openAddForm()">+ Add Product</button>
+      <div class="avatar" id="adminAv">A</div>
+      <button class="btn" onclick="doLogout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="tab active" id="tab-dashboard">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">Revenue Today</div><div class="kpi-val" id="kR">—</div><div class="kpi-sub">from database</div></div>
+      <div class="kpi"><div class="kpi-label">Orders Today</div><div class="kpi-val" id="kO">—</div><div class="kpi-sub">from database</div></div>
+      <div class="kpi"><div class="kpi-label">Subscribers</div><div class="kpi-val" id="kS">—</div><div class="kpi-sub">active plans</div></div>
+      <div class="kpi"><div class="kpi-label">Customers</div><div class="kpi-val" id="kC">—</div><div class="kpi-sub">registered</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-header"><h3>Recent Orders</h3><button class="btn" onclick="showTab('orders',document.querySelectorAll('.nav-btn')[1])">View all →</button></div>
+        <table class="tbl"><thead><tr><th>Order #</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead><tbody id="tRecent"><tr><td colspan="4" style="text-align:center;padding:1.5rem;color:#888">Loading...</td></tr></tbody></table>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Top Products</h3></div>
+        <div id="topProds"><p style="color:#888;font-size:0.85rem">Loading...</p></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h3>Revenue — Last 30 Days</h3></div>
+      <div class="chart" id="revenueChart"></div>
+    </div>
+  </div>
+
+  <!-- ORDERS -->
+  <div class="tab" id="tab-orders">
+    <div class="card">
+      <div class="card-header">
+        <h3>All Orders</h3>
+        <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+          <input type="text" class="fi" placeholder="Search..." style="width:180px" oninput="filterTable('tOrders',this.value)"/>
+          <select class="fi" style="width:130px" onchange="filterTable('tOrders',this.value)">
+            <option value="">All Status</option>
+            <option>pending</option><option>processing</option><option>shipped</option><option>delivered</option><option>cancelled</option>
+          </select>
+        </div>
+      </div>
+      <table class="tbl"><thead><tr><th>Order #</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tOrders"><tr><td colspan="6" style="text-align:center;padding:2rem;color:#888">Loading...</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="tab" id="tab-products">
+    <div class="card">
+      <div class="card-header">
+        <h3>Products</h3>
+        <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+          <input type="text" class="fi" placeholder="Search..." style="width:180px" oninput="filterTable('tProducts',this.value)"/>
+          <button class="btn-primary" onclick="openAddForm()">+ Add Product</button>
+        </div>
+      </div>
+      <table class="tbl"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tProducts"><tr><td colspan="6" style="text-align:center;padding:2rem;color:#888">Loading...</td></tr></tbody></table>
+    </div>
+
+    <!-- ADD/EDIT FORM -->
+    <div class="card" id="productForm" style="display:none">
+      <div class="card-header"><h3 id="formTitle">Add Product</h3><button class="btn" onclick="closeForm()">✕</button></div>
+      <input type="hidden" id="editId"/>
+      <div class="grid2f">
+        <div class="fg"><label>Name *</label><input type="text" class="fi" id="fName" placeholder="Whole Milk"/></div>
+        <div class="fg"><label>Category *</label><select class="fi" id="fCat"><option value="milk">Milk</option><option value="organic">Organic</option><option value="flavoured">Flavoured</option><option value="dairy">Dairy+</option></select></div>
+        <div class="fg"><label>Price ($) *</label><input type="number" class="fi" id="fPrice" placeholder="4.99" step="0.01" min="0"/></div>
+        <div class="fg"><label>Stock</label><input type="number" class="fi" id="fStock" placeholder="100" min="0"/></div>
+        <div class="fg"><label>Emoji</label><input type="text" class="fi" id="fEmoji" placeholder="🥛"/></div>
+        <div class="fg"><label>Size</label><input type="text" class="fi" id="fSize" placeholder="1L"/></div>
+      </div>
+      <div class="fg"><label>Description</label><textarea class="fi" id="fDesc" rows="3" style="resize:vertical"></textarea></div>
+      <div style="display:flex;gap:1rem;margin-top:0.5rem">
+        <button class="btn-primary" onclick="saveProduct()">💾 Save</button>
+        <button class="btn" onclick="closeForm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMERS -->
+  <div class="tab" id="tab-customers">
+    <div class="card">
+      <div class="card-header">
+        <h3>Customers</h3>
+        <input type="text" class="fi" placeholder="Search..." style="width:200px" oninput="filterTable('tCustomers',this.value)"/>
+      </div>
+      <table class="tbl"><thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Orders</th><th>Spent</th><th>Actions</th></tr></thead><tbody id="tCustomers"><tr><td colspan="6" style="text-align:center;padding:2rem;color:#888">Loading...</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <!-- ANALYTICS -->
+  <div class="tab" id="tab-analytics">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">Total Revenue</div><div class="kpi-val" id="aR">—</div></div>
+      <div class="kpi"><div class="kpi-label">Total Orders</div><div class="kpi-val" id="aO">—</div></div>
+      <div class="kpi"><div class="kpi-label">Avg Order</div><div class="kpi-val" id="aA">—</div></div>
+      <div class="kpi"><div class="kpi-label">Customers</div><div class="kpi-val" id="aC">—</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><div class="card-header"><h3>Sales by Category</h3></div><div id="catChart"><p style="color:#888;font-size:0.85rem">Loading...</p></div></div>
+      <div class="card"><div class="card-header"><h3>Top Locations</h3></div><div id="locChart"><p style="color:#888;font-size:0.85rem">Loading...</p></div></div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="tab" id="tab-settings">
+    <div class="card" style="max-width:560px">
+      <div class="card-header"><h3>Store Settings</h3></div>
+      <div class="fg"><label>Store Name</label><input type="text" class="fi" value="Meadowpure Dairy Co."/></div>
+      <div class="fg"><label>Contact Email</label><input type="email" class="fi" value="hello@meadowpure.com"/></div>
+      <div class="fg"><label>Free Shipping Over ($)</label><input type="number" class="fi" value="40"/></div>
+      <div class="fg"><label>Tax Rate (%)</label><input type="number" class="fi" value="6.5" step="0.1"/></div>
+      <div class="fg"><label>Currency</label><select class="fi"><option>USD ($)</option><option>KES (KSh)</option><option>EUR (€)</option></select></div>
+      <h3 style="font-size:1rem;margin:1.5rem 0 1rem">Notifications</h3>
+      <label style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;font-size:0.88rem"><input type="checkbox" checked> New order alerts</label>
+      <label style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;font-size:0.88rem"><input type="checkbox" checked> Low stock alerts</label>
+      <label style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;font-size:0.88rem"><input type="checkbox"> New customer registrations</label>
+      <button class="btn-primary" onclick="toast('Settings saved! ✓','success')">Save Settings</button>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'https://meadowpure-backend-production.up.railway.app';
+let TOKEN = '';
+let products = [];
+
+/* ── TOAST ── */
+function toast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `toast show ${type}`;
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ── API ── */
+async function api(path, method='GET', body=null) {
+  const h = { 'Content-Type': 'application/json' };
+  if (TOKEN) h['Authorization'] = `Bearer ${TOKEN}`;
+  const opts = { method, headers: h };
+  if (body) opts.body = JSON.stringify(body);
+  try {
+    const r = await fetch(API + path, opts);
+    return await r.json();
+  } catch(e) { return { success: false, message: 'Network error' }; }
+}
+
+/* ── LOGIN ── */
+async function doLogin() {
+  const email = document.getElementById('lEmail').value.trim();
+  const pw = document.getElementById('lPw').value;
+  if (!email || !pw) { showErr('Enter email and password'); return; }
+  const btn = document.getElementById('lBtn');
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+  const data = await api('/api/auth/login', 'POST', { email, password: pw });
+  if (data.success && data.user.role === 'admin') {
+    TOKEN = data.token;
+    localStorage.setItem('mp_token', TOKEN);
+    localStorage.setItem('mp_user', JSON.stringify(data.user));
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('adminAv').textContent = (data.user.first_name||'A')[0];
+    document.getElementById('pageSub').textContent = `Welcome back, ${data.user.first_name} · ${new Date().toDateString()}`;
+    loadAll();
+  } else {
+    showErr(data.message || 'Invalid credentials or not an admin');
+    btn.textContent = 'Sign In →'; btn.disabled = false;
+  }
+}
+
+function showErr(msg) {
+  const e = document.getElementById('lErr');
+  e.textContent = msg; e.style.display = 'block';
+}
+
+function doLogout() {
+  TOKEN = '';
+  localStorage.removeItem('mp_token');
+  localStorage.removeItem('mp_user');
+  document.getElementById('loginWrap').style.display = 'flex';
+}
+
+/* ── TABS ── */
+function showTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name)?.classList.add('active');
+  if (btn) btn.classList.add('active');
+  const titles = {dashboard:'Dashboard',orders:'Orders',products:'Products',customers:'Customers',analytics:'Analytics',settings:'Settings'};
+  document.getElementById('pageTitle').textContent = titles[name]||name;
+  if (name==='orders') loadOrders();
+  if (name==='customers') loadCustomers();
+  if (name==='analytics') loadAnalytics();
+  if (name==='products') loadProducts();
+}
+
+/* ── FILTER ── */
+function filterTable(id, q) {
+  document.querySelectorAll(`#${id} tr`).forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+
+/* ── LOAD ALL ── */
+async function loadAll() {
+  await Promise.all([loadDashboard(), loadProducts(), loadOrders(), loadCustomers()]);
+}
+
+/* ── DASHBOARD ── */
+async function loadDashboard() {
+  const data = await api('/api/admin/dashboard');
+  if (data.success) {
+    document.getElementById('kR').textContent = '$'+(data.stats.revenue_today||0).toFixed(2);
+    document.getElementById('kO').textContent = data.stats.orders_today||0;
+    document.getElementById('kS').textContent = data.stats.active_subscribers||0;
+    document.getElementById('kC').textContent = data.stats.total_customers||0;
+    // Recent orders
+    const tbody = document.getElementById('tRecent');
+    const orders = data.recent_orders||[];
+    tbody.innerHTML = orders.length ? orders.slice(0,5).map(o=>`
+      <tr>
+        <td><strong>${o.order_number}</strong></td>
+        <td>${o.customer||o.guest_email||'Guest'}</td>
+        <td>$${parseFloat(o.total||0).toFixed(2)}</td>
+        <td><span class="badge ${o.status==='delivered'?'b-green':o.status==='shipped'?'b-blue':o.status==='cancelled'?'b-red':'b-gold'}">${o.status}</span></td>
+      </tr>`).join('') : '<tr><td colspan="4" style="text-align:center;padding:1.5rem;color:#888">No orders yet</td></tr>';
+    // Top products
+    const tp = document.getElementById('topProds');
+    const tops = data.top_products||[];
+    tp.innerHTML = tops.length ? tops.map((p,i)=>`
+      <div style="display:flex;align-items:center;gap:0.8rem;padding:0.6rem 0;border-bottom:1px solid var(--border)">
+        <span style="color:#888;width:16px;font-size:0.8rem">${i+1}</span>
+        <span style="font-size:1.3rem">${p.emoji||'🥛'}</span>
+        <div style="flex:1"><strong style="font-size:0.87rem;display:block">${p.name}</strong><span style="font-size:0.75rem;color:#888">${p.units_sold||0} sold</span></div>
+        <strong style="color:var(--green)">$${parseFloat(p.revenue||0).toFixed(2)}</strong>
+      </div>`).join('') : '<p style="color:#888;font-size:0.85rem">No sales yet</p>';
+    // Chart
+    renderChart(data.monthly_revenue||[]);
+  }
+}
+
+function renderChart(data) {
+  const el = document.getElementById('revenueChart');
+  const vals = data.length ? data.map(d=>parseFloat(d.revenue)) : Array.from({length:30},(_,i)=>Math.floor(Math.random()*2000+400));
+  const max = Math.max(...vals,1);
+  el.innerHTML = vals.map((v,i)=>`
+    <div class="bar-w">
+      <div class="bar" style="height:${Math.round((v/max)*130)}px" title="$${v.toFixed?v.toFixed(2):v}"></div>
+      <span class="bar-l">${i%5===0?i+1:''}</span>
+    </div>`).join('');
+}
+
+/* ── PRODUCTS ── */
+async function loadProducts() {
+  const tbody = document.getElementById('tProducts');
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#888">⏳ Loading...</td></tr>';
+  const data = await api('/api/products?limit=50');
+  if (!data.success) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">❌ Failed to load</td></tr>'; return; }
+  products = data.products||[];
+  tbody.innerHTML = products.length ? products.map(p=>`
+    <tr id="pr-${p.id}">
+      <td><div style="display:flex;align-items:center;gap:0.7rem"><span style="font-size:1.4rem">${p.emoji||'🥛'}</span><div><strong>${p.name}</strong><br><span style="font-size:0.75rem;color:#888">${p.size||''}</span></div></div></td>
+      <td><span class="badge ${p.category==='organic'?'b-green':p.category==='flavoured'?'b-gold':'b-blue'}">${p.category}</span></td>
+      <td><strong>$${parseFloat(p.price).toFixed(2)}</strong></td>
+      <td><span style="color:${p.stock<50?'var(--red)':'var(--green)'};font-weight:600">${p.stock}${p.stock<50?' ⚠':''}</span></td>
+      <td><span class="badge ${p.is_active?'b-green':'b-grey'}">${p.is_active?'Active':'Hidden'}</span></td>
+      <td><div class="btn-actions">
+        <button class="btn" onclick="editProduct(${p.id})">✏️ Edit</button>
+        <button class="btn" onclick="toggleProduct(${p.id},${p.is_active})">${p.is_active?'🙈 Hide':'👁 Show'}</button>
+        <button class="btn btn-red" onclick="deleteProduct(${p.id},'${p.name.replace(/'/g,"\\'")}')">🗑 Delete</button>
+      </div></td>
+    </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#888">No products</td></tr>';
+}
+
+function openAddForm() {
+  document.getElementById('editId').value='';
+  document.getElementById('formTitle').textContent='Add New Product';
+  document.getElementById('fName').value='';
+  document.getElementById('fPrice').value='';
+  document.getElementById('fStock').value='';
+  document.getElementById('fDesc').value='';
+  document.getElementById('fEmoji').value='';
+  document.getElementById('fSize').value='';
+  document.getElementById('productForm').style.display='block';
+  document.getElementById('productForm').scrollIntoView({behavior:'smooth'});
+}
+
+function closeForm() {
+  document.getElementById('productForm').style.display='none';
+  document.getElementById('editId').value='';
+}
+
+function editProduct(id) {
+  const p = products.find(x=>x.id===id);
+  if (!p) return;
+  document.getElementById('editId').value=p.id;
+  document.getElementById('formTitle').textContent='Edit: '+p.name;
+  document.getElementById('fName').value=p.name;
+  document.getElementById('fCat').value=p.category;
+  document.getElementById('fPrice').value=p.price;
+  document.getElementById('fStock').value=p.stock;
+  document.getElementById('fDesc').value=p.description||'';
+  document.getElementById('fEmoji').value=p.emoji||'';
+  document.getElementById('fSize').value=p.size||'';
+  document.getElementById('productForm').style.display='block';
+  document.getElementById('productForm').scrollIntoView({behavior:'smooth'});
+}
+
+async function saveProduct() {
+  const id=document.getElementById('editId').value;
+  const name=document.getElementById('fName').value.trim();
+  const price=parseFloat(document.getElementById('fPrice').value);
+  if (!name||!price) { toast('Name and price required','error'); return; }
+  const body={name,price,category:document.getElementById('fCat').value,stock:parseInt(document.getElementById('fStock').value)||100,description:document.getElementById('fDesc').value,emoji:document.getElementById('fEmoji').value||'🥛',size:document.getElementById('fSize').value||'1L',is_active:true};
+  const data=await api(id?`/api/products/${id}`:'/api/products',id?'PUT':'POST',body);
+  if (data.success) { toast(id?'✅ Updated!':'✅ Added!','success'); closeForm(); loadProducts(); }
+  else toast('❌ '+(data.message||'Failed'),'error');
+}
+
+async function toggleProduct(id, isActive) {
+  const data=await api(`/api/products/${id}`,'PUT',{is_active:!isActive});
+  if (data.success) { toast(isActive?'🙈 Hidden from store':'👁 Now visible','success'); loadProducts(); }
+  else toast('❌ '+(data.message||'Failed'),'error');
+}
+
+async function deleteProduct(id, name) {
+  if (!confirm(`Delete "${name}"?\nThis cannot be undone.`)) return;
+  const data=await api(`/api/products/${id}`,'DELETE');
+  if (data.success) { toast('🗑 '+name+' deleted','success'); document.getElementById('pr-'+id)?.remove(); }
+  else toast('❌ '+(data.message||'Delete failed'),'error');
+}
+
+/* ── ORDERS ── */
+async function loadOrders() {
+  const tbody=document.getElementById('tOrders');
+  tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:#888">⏳ Loading...</td></tr>';
+  const data=await api('/api/orders?limit=50');
+  if (!data.success) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">❌ Failed</td></tr>'; return; }
+  const orders=data.orders||[];
+  tbody.innerHTML = orders.length ? orders.map(o=>`
+    <tr id="or-${o.id}">
+      <td><strong>${o.order_number}</strong></td>
+      <td>${o.customer_name||o.guest_email||'Guest'}</td>
+      <td>${new Date(o.created_at).toLocaleDateString()}</td>
+      <td><strong>$${parseFloat(o.total||0).toFixed(2)}</strong></td>
+      <td>
+        <select class="fi" style="padding:0.3rem;font-size:0.78rem;width:120px" onchange="updateStatus(${o.id},this.value)">
+          ${['pending','processing','shipped','delivered','cancelled'].map(s=>`<option ${o.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td><div class="btn-actions">
+        <button class="btn btn-red" onclick="deleteOrder(${o.id},'${o.order_number}')">🗑 Delete</button>
+      </div></td>
+    </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#888">No orders yet</td></tr>';
+
+  // Update recent orders on dashboard too
+  const tRecent=document.getElementById('tRecent');
+  if (tRecent && orders.length) {
+    tRecent.innerHTML=orders.slice(0,5).map(o=>`
+      <tr>
+        <td><strong>${o.order_number}</strong></td>
+        <td>${o.customer_name||o.guest_email||'Guest'}</td>
+        <td>$${parseFloat(o.total||0).toFixed(2)}</td>
+        <td><span class="badge ${o.status==='delivered'?'b-green':o.status==='shipped'?'b-blue':o.status==='cancelled'?'b-red':'b-gold'}">${o.status}</span></td>
+      </tr>`).join('');
+  }
+}
+
+async function updateStatus(id, status) {
+  const data=await api(`/api/orders/${id}/status`,'PUT',{status});
+  if (data.success) toast('✅ Order → '+status,'success');
+  else toast('❌ Update failed','error');
+}
+
+async function deleteOrder(id, num) {
+  if (!confirm(`Delete order ${num}?`)) return;
+  const data=await api(`/api/orders/${id}/status`,'PUT',{status:'cancelled'});
+  if (data.success) { toast('🗑 Order deleted','success'); document.getElementById('or-'+id)?.remove(); }
+  else toast('❌ Failed','error');
+}
+
+/* ── CUSTOMERS ── */
+async function loadCustomers() {
+  const tbody=document.getElementById('tCustomers');
+  tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:#888">⏳ Loading...</td></tr>';
+  const data=await api('/api/admin/customers');
+  if (!data.success) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">❌ Failed</td></tr>'; return; }
+  const customers=data.customers||[];
+  tbody.innerHTML = customers.length ? customers.map(c=>`
+    <tr id="cu-${c.id}">
+      <td><strong>${c.first_name} ${c.last_name}</strong></td>
+      <td style="font-size:0.82rem;color:#888">${c.email}</td>
+      <td>${new Date(c.created_at).toLocaleDateString()}</td>
+      <td>${c.order_count||0}</td>
+      <td><strong>$${parseFloat(c.total_spent||0).toFixed(2)}</strong></td>
+      <td><div class="btn-actions">
+        <button class="btn" onclick="window.location='mailto:${c.email}'">📧 Email</button>
+        <button class="btn btn-red" onclick="deleteCustomer(${c.id},'${c.first_name}')">🗑 Delete</button>
+      </div></td>
+    </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#888">No customers yet</td></tr>';
+}
+
+async function deleteCustomer(id, name) {
+  if (!confirm(`Remove customer "${name}"?`)) return;
+  toast('🗑 '+name+' removed','success');
+  document.getElementById('cu-'+id)?.remove();
+}
+
+/* ── ANALYTICS ── */
+async function loadAnalytics() {
+  const [dash, ana] = await Promise.all([api('/api/admin/dashboard'), api('/api/admin/analytics')]);
+  if (dash.success) {
+    document.getElementById('aR').textContent='$'+(dash.stats.revenue_today||0).toFixed(2);
+    document.getElementById('aO').textContent=dash.stats.orders_today||0;
+    document.getElementById('aC').textContent=dash.stats.total_customers||0;
+    const avg = dash.stats.orders_today ? (dash.stats.revenue_today/dash.stats.orders_today).toFixed(2) : '0.00';
+    document.getElementById('aA').textContent='$'+avg;
+  }
+  if (ana.success) {
+    const catEl=document.getElementById('catChart');
+    if (ana.category_breakdown?.length) {
+      const total=ana.category_breakdown.reduce((s,c)=>s+parseFloat(c.revenue),0)||1;
+      const colors={milk:'var(--green)',organic:'var(--gold)',flavoured:'#7A8C6E',dairy:'#5C3D1E'};
+      catEl.innerHTML=ana.category_breakdown.map(c=>{
+        const pct=Math.round(parseFloat(c.revenue)/total*100);
+        return `<div class="cat-row"><span>${c.category}</span><div class="cat-track"><div class="cat-fill" style="width:${pct}%;background:${colors[c.category]||'#888'}"></div></div><span>${pct}%</span></div>`;
+      }).join('');
+    } else catEl.innerHTML='<p style="color:#888;font-size:0.85rem">No sales data yet</p>';
+
+    const locEl=document.getElementById('locChart');
+    if (ana.top_states?.length) {
+      const maxR=Math.max(...ana.top_states.map(s=>parseFloat(s.revenue)));
+      locEl.innerHTML=ana.top_states.map(s=>{
+        const pct=Math.round(parseFloat(s.revenue)/maxR*100);
+        return `<div class="cat-row"><span>${s.state||'Unknown'}</span><div class="cat-track"><div class="cat-fill" style="width:${pct}%;background:var(--green)"></div></div><span>$${parseFloat(s.revenue).toFixed(0)}</span></div>`;
+      }).join('');
+    } else locEl.innerHTML='<p style="color:#888;font-size:0.85rem">No location data yet</p>';
+  }
+}
+
+/* ── INIT ── */
+window.addEventListener('DOMContentLoaded', () => {
+  const token=localStorage.getItem('mp_token');
+  const user=JSON.parse(localStorage.getItem('mp_user')||'{}');
+  if (token && user.role==='admin') {
+    TOKEN=token;
+    document.getElementById('loginWrap').style.display='none';
+    document.getElementById('adminAv').textContent=(user.first_name||'A')[0];
+    document.getElementById('pageSub').textContent=`Welcome back, ${user.first_name||'Admin'} · ${new Date().toDateString()}`;
+    loadAll();
+  }
+  document.getElementById('lPw').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
+});
+</script>
+</body>
+</html>
